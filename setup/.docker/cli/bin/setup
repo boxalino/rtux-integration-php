@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir -p $PROJECT_ROOT
+echo $PROJECT_ROOT
+
+# Configure composer
+[ ! -z "$COMPOSER_GITHUB_TOKEN" ] && \
+    composer config --global github-oauth.github.com $COMPOSER_GITHUB_TOKEN
+
+exec "$@"

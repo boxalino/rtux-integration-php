@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Configuration -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\ConfigurationInterface"
+                 class="Boxalino\RealTimeUserExperienceSample\Service\Api\Util\Configuration" />
+
+        <!-- Generic Page  -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Framework\Content\Page\ApiResponsePageInterface"
+                 class="Boxalino\RealTimeUserExperienceSample\Framework\Content\Page\ApiResponsePage"/>
+
+        <!-- Generic Api content loader on the page -->
+        <service id="boxalino.sample.content.page.loader" class="Boxalino\RealTimeUserExperienceSample\Framework\Content\Page\ApiPageLoader"
+                 parent="boxalino.api.content.loader.page" shared="false"/>
+
+        <!-- Collection EntitySearchResult service (used in layout block definition) -->
+        <service id="boxalino.sample.content.collection" class="Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing\ApiEntityCollectionModel"
+                 parent="boxalino.api.content.listing.collection"
+                 public="true" shared="false"/>
+
+        <!-- Boxalino facet handler model (used in layout block definition) -->
+        <service id="Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing\ApiFacetModel"
+                 parent="boxalino.api.content.listing.facet"
+                 public="true"/>
+
+        <!-- Sorting resource - has to be added in integration layer because of the dynamic mapping for the product listing sorting -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Framework\Content\Listing\ApiSortingModelInterface"
+                 class="Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing\ApiSortingModel"
+                 parent="boxalino.api.content.listing.sorting"
+                 public="true">
+            <call method="add">
+                <argument type="collection">
+                    <argument key="price">discountedPrice</argument>
+                    <argument key="name">title</argument>
+                    <argument key="id">products_group_id</argument>
+                    <argument key="_score">score</argument>
+                </argument>
+            </call>
+        </service>
+
+        <!-- Specifically designed elements - connectors to Boxalino Narrative API service -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface"
+                 class="Boxalino\RealTimeUserExperienceSample\Framework\Request\RequestTransformer"
+                 parent="boxalino.api.request.transformer"/>
+
+        <!-- Accessor updates -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\AccessorHandlerInterface"
+                 class="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\AccessorHandler">
+            <!-- set the product property ID field as used in the requests -->
+            <call method="addHitIdFieldName">
+                <argument>bx-hit</argument>
+                <argument>products_group_id</argument>
+            </call>
+        </service>
+
+        <!-- Search definition of the search context used for the setup -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface"
+                 class="Boxalino\RealTimeUserExperienceSample\Framework\Request\SearchContext"
+                 parent="boxalino.api.request.context.search">
+            <call method="setRequestDefinition">
+                <argument type="service" id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\SearchRequestDefinitionInterface"/>
+            </call>
+            <call method="setWidget"><argument>search</argument></call>
+            <!-- <call method="setGroupBy"><argument>id</argument></call>-->
+            <!-- <call method="setHitCount"><argument>20</argument></call>-->
+            <call method="setSubPhrasesCount"><argument>3</argument></call>
+            <call method="setSubPhrasesProductsCount"><argument>6</argument></call>
+        </service>
+
+        <!-- Content loader for search (used as a dependency in controller) (declared independently because the ApiPageLoader can be re-used for navigation and other contexts -->
+        <service id="boxalino.sample.loader.search" class="Boxalino\RealTimeUserExperienceSample\Framework\Content\Page\ApiPageLoader"
+                 parent="boxalino.sample.content.page.loader">
+            <call method="setApiContextInterface">
+                <argument type="service" id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface"/>
+            </call>
+        </service>
+
+        <!-- SEARCH CONTROLLER -->
+        <service id="Boxalino\RealTimeUserExperienceSample\Controller\SearchController" public="true">
+            <argument type="service" id="boxalino.integration.loader.search" />
+            <argument type="service" id="monolog.logger"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+    </services>
+
+</container>

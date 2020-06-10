@@ -1,0 +1,33 @@
+{
+  "name": "boxalino/rtux-sample-php",
+  "description": "The Boxalino Real Time User Experience (RTUX) API integration guidelines",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "keywords": [
+    "boxalino", "rtux", "php-unit"
+  ],
+  "homepage": "http://www.boxalino.com",
+  "authors": [
+    {
+      "name": "Boxalino AG",
+      "role": "Manufacturer",
+      "email": "support@boxalino.com",
+      "homepage": "http://www.boxalino.com/"
+    }
+  ],
+  "support": {
+    "email": "support@boxalino.com"
+  },
+  "require": {
+    "php": ">=7.2",
+    "boxalino/rtux-api-php": ">=1.0.0",
+    "phpunit/phpunit": "~7.2",
+    "symfony/framework-bundle": "~4",
+    "symfony/templating": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Boxalino\\RealTimeUserExperienceSample\\": "src/"
+    }
+  }
+}

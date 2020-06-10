@@ -1,0 +1,69 @@
+# Docker compose for a full Magento 2
+version: '2'
+
+services:
+  server:
+    build: ./setup/.docker/nginx
+    image: boxalino/rtux-nginx:1.15
+    container_name: boxalino_rtux_nginx
+    volumes:
+      - ./setup/.docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./setup/.docker/nginx/conf/sites-enabled:/usr/local/bin/nginx/sites-enabled
+      - ./setup/.docker/nginx/logs:/var/log/nginx
+    volumes_from:
+      - code
+    ports:
+      - 80
+      - 443
+    links:
+      - php
+    tty: true
+    environment:
+      SERVER_NAME: "rtux.boxalino.work"
+    env_file:
+      - ./setup/.docker/nginx/.env
+      - ./.env
+
+  php:
+    build: ./setup/.docker/php
+    image: boxalino/rtux-php:7.2
+    container_name: boxalino_work_rtux_php7.2
+    volumes_from:
+      - code
+    volumes:
+      - ./setup/.docker/php/conf/php.ini:/usr/local/etc/php/php.ini
+      - ./setup/.docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./setup/.docker/php/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./setup/.docker/php/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+      - ./setup/.docker/php/logs:/var/log/php
+    ports:
+      - 9000
+    links:
+      - code
+    environment:
+      PHP_IDE_CONFIG: "serverName=rtux.boxalino.work"
+
+  app:
+    build: ./setup/.docker/cli
+    image: boxalino/rtux-cli:7.2
+    container_name: boxalino_rtux_cli
+    links:
+      - code
+    volumes_from:
+      - code
+    volumes:
+      - ./setup/.docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
+    environment:
+      PROJECT_ROOT: "/var/www/src"
+    env_file:
+      - ./.env
+
+  code:
+    build: ./setup/.docker/volume
+    image: boxalino/rtux-volume
+    container_name: boxalino_rtux_volume
+    volumes:
+      - .:/var/www/src
+    environment:
+      SETUP_VOLUME: "/var/www/src"
