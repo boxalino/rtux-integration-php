@@ -67,7 +67,7 @@ RUN apt-get update &&\
     apt-get clean && rm -rf /var/lib/apt/lists/* &&\
     gem install mailcatcher --no-rdoc --no-ri
 
-WORKDIR "/var/www/src"
+WORKDIR "/var/www/app"
 VOLUME "/usr/local/etc/php/conf.d"
 
 RUN usermod -u 1001 www-data

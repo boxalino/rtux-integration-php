@@ -1,0 +1,16 @@
+#!/bin/bash
+
+chown -R 1001:1001 $SYMFONY_ROOT
+
+if [ ! -f "$SYMFONY_ROOT/composer.json" ]; then
+    echo "Creating Symfony project from composer"
+    composer create-project symfony/website-skeleton:^4.4 $SYMFONY_ROOT
+fi
+
+echo "Symfony installation found in $SYMFONY_ROOT, installing composer dependencies"
+composer update
+composer require boxalino/rtux-api-php
+
+chown -R 1001:1001 $SYMFONY_ROOT
+chmod -R 775 $SYMFONY_ROOT/var
+chmod +x $SYMFONY_ROOT/bin/console

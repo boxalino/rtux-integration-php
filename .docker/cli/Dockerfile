@@ -5,6 +5,8 @@ MAINTAINER Dana Negrescu <dana.negrescu@boxalino.com>
 RUN apt-get update \
    && apt-get install -y \
      cron \
+     wget \
+     nano \
      rsyslog \
      libfreetype6-dev \
      libicu-dev \
@@ -40,7 +42,6 @@ RUN docker-php-ext-install \
    zip \
    soap
 
-
 #Installing SSH2
 RUN pecl channel-update pecl.php.net
  RUN apt-get install -y git libssh2-1 libssh2-1-dev && \
@@ -51,10 +52,14 @@ RUN pecl channel-update pecl.php.net
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY .composer/auth.json /root/.composer/auth.json
 
+# Install Symfony
+#RUN wget https://get.symfony.com/cli/installer -O - | bash
+
 ADD bin/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup
+RUN chmod +x /usr/local/bin/install
 
-WORKDIR /var/www/src
+WORKDIR /var/www/app
 
 RUN usermod -u 1000 www-data
 RUN usermod -G 100 www-data
