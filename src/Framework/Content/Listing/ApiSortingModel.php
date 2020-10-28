@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Listing;
 
 use Boxalino\RealTimeUserExperienceApi\Framework\Content\Listing\ApiSortingModelInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorInterface;
@@ -9,7 +9,7 @@ use Boxalino\RealTimeUserExperienceApi\Framework\Content\Listing\ApiSortingModel
 
 /**
  * Class ApiSortingModel
- * @package Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing
+ * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Listing
  */
 class ApiSortingModel extends ApiSortingModelAbstract
     implements ApiSortingModelInterface

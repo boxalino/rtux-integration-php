@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Request;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ use Boxalino\RealTimeUserExperienceApi\Framework\Request\RequestTransformerAbstr
  * Sets request variables dependent on the channel
  * (account, credentials, environment details -- language, dev, test, session, header parameters, etc)
  *
- * @package Boxalino\RealTimeUserExperienceSample\Service\Api
+ * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api
  */
 class RequestTransformer extends ApiRequestTransformer
     implements RequestTransformerInterface

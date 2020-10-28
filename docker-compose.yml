@@ -47,9 +47,9 @@ services:
     image: boxalino/rtux-cli:7.2
     container_name: boxalino_rtux_cli
     links:
-      - code
+      - app-code
     volumes_from:
-      - code
+      - app-code
     volumes:
       - ./.docker/cli/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
       - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
@@ -58,11 +58,20 @@ services:
     env_file:
       - ./.env
 
+  app-code:
+    build: ./.docker/volume
+    image: boxalino/rtux-volume
+    container_name: boxalino_rtux_volume
+    volumes:
+      - .:/var/www/app
+    environment:
+      SETUP_VOLUME: "/var/www/app"
+
   code:
     build: ./.docker/volume
     image: boxalino/rtux-volume
     container_name: boxalino_rtux_volume
     volumes:
-      - ./code:/var/www/app
+      - ./code:/var/www/code
     environment:
-      SETUP_VOLUME: "/var/www/app"
+      SETUP_VOLUME: "/var/www/code"

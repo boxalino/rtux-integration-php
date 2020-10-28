@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\DependencyInjection;
+namespace BoxalinoClientProject\BoxalinoIntegration\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -10,7 +10,7 @@ use Symfony\Component\Config\FileLocator;
  * Class SampleExtension
  * Boxalino API Sample Bundle extension
  *
- * @package Boxalino\RealTimeUserExperienceSample\DependencyInjection
+ * @package BoxalinoClientProject\BoxalinoIntegration\DependencyInjection
  */
 class SampleExtension extends Extension
 {

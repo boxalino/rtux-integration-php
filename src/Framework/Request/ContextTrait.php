@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Request;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterFactory;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * to be used for all other implicit contexts
  * (generic filters)
  *
- * @package Boxalino\RealTimeUserExperienceSample\Framework\Request
+ * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Request
  */
 trait ContextTrait
 {

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Content\Page;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Page;
 
 use Boxalino\RealTimeUserExperienceApi\Framework\Content\Page\ApiResponsePageInterface;
 
 /**
- * @package Boxalino\RealTimeUserExperienceSample\Service\Api\Content\Page
+ * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api\Content\Page
  */
 class ApiResponsePage implements ApiResponsePageInterface
 {

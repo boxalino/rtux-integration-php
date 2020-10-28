@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Content\Page;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Page;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;

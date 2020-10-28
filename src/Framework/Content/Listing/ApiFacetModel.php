@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Content\Listing;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Listing;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorFacetModelInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorInterface;
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  * The integrator can decide to either use all data as provided by the Narrative API,
  * or to design custom data layers to represent the fetched content
  *
- * @package Boxalino\RealTimeUserExperienceSample\Service\Api\Content
+ * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api\Content
  */
 class ApiFacetModel extends ApiFacetModelAbstract
     implements AccessorFacetModelInterface

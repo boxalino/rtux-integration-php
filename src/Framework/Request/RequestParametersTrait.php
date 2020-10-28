@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Request;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 /**
  * Trait RequestParametersTrait
  * Describes the local e-shop request parameters
  *
- * @package Boxalino\RealTimeUserExperienceSample\Framework\Request
+ * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Request
  */
 trait RequestParametersTrait
 {

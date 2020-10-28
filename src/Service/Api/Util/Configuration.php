@@ -1,5 +1,5 @@
 <?php
-namespace Boxalino\RealTimeUserExperienceSample\Service\Api\Util;
+namespace BoxalinoClientProject\BoxalinoIntegration\Service\Api\Util;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Util\ConfigurationInterface;
 use Psr\Log\LoggerInterface;
@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
  * Class Configuration
  * Configurations defined for the REST API requests
  *
- * @package Boxalino\RealTimeUserExperienceSample\Service\Api\Util
+ * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api\Util
  */
 class Configuration implements ConfigurationInterface
 {

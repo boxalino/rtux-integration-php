@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Request;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\ListingContextInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Boxalino Search Request handler
  * Allows to set the nr of subphrases and products returned on each subphrase hit
  *
- * @package Boxalino\RealTimeUserExperienceSample\Framework\Request
+ * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Request
  */
 class SearchContext
     extends \Boxalino\RealTimeUserExperienceApi\Framework\Request\SearchContextAbstract

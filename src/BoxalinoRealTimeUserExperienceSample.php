@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample;
+namespace BoxalinoClientProject\BoxalinoIntegration;
 
-use Boxalino\RealTimeUserExperienceSample\DependencyInjection\SampleExtension;
+use BoxalinoClientProject\BoxalinoIntegration\DependencyInjection\SampleExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 
 /**
  * Class BoxalinoRealTimeUserExperienceSample
  *
- * @package Boxalino\RealTimeUserExperienceSample
+ * @package BoxalinoClientProject\BoxalinoIntegration
  */
 class BoxalinoRealTimeUserExperienceSample extends Bundle
 {

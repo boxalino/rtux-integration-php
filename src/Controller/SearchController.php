@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Controller;
+namespace BoxalinoClientProject\BoxalinoIntegration\Controller;
 
-use Boxalino\RealTimeUserExperienceSample\Framework\Content\Page\ApiPageLoader as SearchPageLoader;
+use BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Page\ApiPageLoader as SearchPageLoader;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  * Class Search
  * Sample search request
  *
- * @package Boxalino\RealTimeUserExperienceSample\Controller
+ * @package BoxalinoClientProject\BoxalinoIntegration\Controller
  */
 class SearchController extends AbstractController
 {

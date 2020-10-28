@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Boxalino\RealTimeUserExperienceSample\Framework\Content\Page;
+namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Page;
 
-use Boxalino\RealTimeUserExperienceSample\Framework\Request\RequestParametersTrait;
+use BoxalinoClientProject\BoxalinoIntegration\Framework\Request\RequestParametersTrait;
 use Boxalino\RealTimeUserExperienceApi\Framework\Content\Page\ApiPageLoaderAbstract;
 use Boxalino\RealTimeUserExperienceApi\Framework\Content\Page\ApiResponsePageInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\ApiCallServiceInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @package Boxalino\RealTimeUserExperienceSample\Service\Api\Content\Page
+ * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api\Content\Page
  */
 class ApiPageLoader extends ApiPageLoaderAbstract
 {
