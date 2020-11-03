@@ -2,12 +2,7 @@
 namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Listing;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorFacetModelInterface;
-use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorInterface;
-use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorModelInterface;
-use Boxalino\RealTimeUserExperienceApi\Service\Api\Response\ResponseHydratorTrait;
-use Boxalino\RealTimeUserExperienceApi\Service\Api\Util\AccessorHandlerInterface;
 use Boxalino\RealTimeUserExperienceApi\Framework\Content\Listing\ApiFacetModelAbstract;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiFacetModel

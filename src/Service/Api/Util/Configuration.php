@@ -2,11 +2,11 @@
 namespace BoxalinoClientProject\BoxalinoIntegration\Service\Api\Util;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Util\ConfigurationInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class Configuration
  * Configurations defined for the REST API requests
+ * It reads the parameters configured
  *
  * @package BoxalinoClientProject\BoxalinoIntegration\Service\Api\Util
  */
@@ -14,74 +14,163 @@ class Configuration implements ConfigurationInterface
 {
 
     /**
-     * @var null | string
+     * @var string
      */
-    protected $contextId = null;
+    protected $username;
 
     /**
-     * @param string $contextId
-     * @return $this
+     * @var string
      */
-    public function setContextId(string $contextId) : self
-    {
-        $this->contextId = $contextId;
-        return $this;
-    }
+    protected $apiKey;
 
+    /**
+     * @var string
+     */
+    protected $apiSecret;
+
+    /**
+     * @var string
+     */
+    protected $endpoint;
+
+    /**
+     * @var bool
+     */
+    protected $isDev;
+
+    /**
+     * @var bool
+     */
+    protected $isTest;
+
+
+    /**
+     * Configuration constructor.
+     *
+     * @param string $username
+     * @param string $apiKey
+     * @param string $apiSecret
+     * @param string $endpoint
+     * @param bool $isDev
+     * @param bool $isTest
+     */
+    public function __construct(string $username, string $apiKey, string $apiSecret, string $endpoint, bool $isDev = false, bool $isTest = true)
+    {
+        $this->setUsername($username);
+        $this->setApiKey($apiKey);
+        $this->setApiSecret($apiSecret);
+        $this->setEndpoint($endpoint);
+        $this->setIsDev($isDev);
+        $this->setIsTest($isTest);
+    }
 
     /**
      * The API endpoint depends on the testing conditionals and on the data index
-     * @param string $contextId
      * @return string
      */
-    public function getRestApiEndpoint(string $contextId) : string
+    public function getRestApiEndpoint() : string
     {
-        return "https://main.bx-cloud.com/narrative/". $this->getUsername($contextId) . "/api/1";
+        return $this->endpoint;
     }
 
     /**
-     * @param string $contextId
      * @return string
      */
-    public function getUsername(string $contextId) : string
+    public function getUsername() : string
     {
-       return "dana_shopware_06";
+       return $this->username;
     }
 
     /**
-     * @param string $contextId
      * @return string
      */
-    public function getApiKey(string $contextId) : string
+    public function getApiKey() : string
     {
-        return "dana_shopware_06";
+        return $this->apiKey;
     }
 
     /**
-     * @param string $contextId
      * @return string
      */
-    public function getApiSecret(string $contextId) : string
+    public function getApiSecret() : string
     {
-        return "dana_shopware_06";
+        return $this->apiSecret;
     }
 
     /**
-     * @param string $contextId
      * @return bool
      */
-    public function getIsDev(string $contextId) : bool
+    public function getIsDev() : bool
     {
-       return false;
+       return $this->isDev;
     }
 
     /**
-     * @param string $contextId
      * @return bool
      */
-    public function getIsTest(string $contextId) : bool
+    public function getIsTest() : bool
     {
-       return false;
+       return $this->isTest;
+    }
+
+    /**
+     * @param string $username
+     * @return ConfigurationInterface
+     */
+    public function setUsername(string $username): ConfigurationInterface
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @param string $apiKey
+     * @return ConfigurationInterface
+     */
+    public function setApiKey(string $apiKey): ConfigurationInterface
+    {
+        $this->apiKey = $apiKey;
+        return $this;
+    }
+
+    /**
+     * @param string $apiSecret
+     * @return ConfigurationInterface
+     */
+    public function setApiSecret(string $apiSecret): ConfigurationInterface
+    {
+        $this->apiSecret = $apiSecret;
+        return $this;
+    }
+
+    /**
+     * @param string $endpoint
+     * @return ConfigurationInterface
+     */
+    public function setEndpoint(string $endpoint): ConfigurationInterface
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+
+    /**
+     * @param bool $isDev
+     * @return ConfigurationInterface
+     */
+    public function setIsDev(bool $isDev): ConfigurationInterface
+    {
+        $this->isDev = $isDev;
+        return $this;
+    }
+
+    /**
+     * @param bool $isTest
+     * @return ConfigurationInterface
+     */
+    public function setIsTest(bool $isTest): ConfigurationInterface
+    {
+        $this->isTest = $isTest;
+        return $this;
     }
 
 }

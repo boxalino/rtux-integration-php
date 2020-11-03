@@ -2,15 +2,18 @@
 namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterFactory;
+use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterFactoryInterface;
+use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Trait ContextTrait
  * sets all the functions required for the Boxalino\RealTimeUserExperienceApi\Framework\Request\ContextAbstract
  * to be used for all other implicit contexts
- * (generic filters)
+ * Set the values for the generic filters : status, visibility, category
+ * Edit the properties name here
+ * The default filters are edited in individual contexts (ListingContext, SearchContext, etc)
  *
  * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Request
  */
@@ -33,38 +36,66 @@ trait ContextTrait
     protected $parameterFactory;
 
     /**
-     * @param Request $request
+     * @param RequestInterface $request
      */
-    public function validateRequest(Request $request) : void
+    public function validateRequest(RequestInterface $request) : void { }
+
+    /**
+     * @param RequestInterface $request
+     * @return ParameterInterface
+     */
+    public function getVisibilityFilter(RequestInterface $request) : ParameterInterface
     {
-        return;
+        return $this->getParameterFactory()->get(ParameterFactoryInterface::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
+            ->add("products_visibility" , $this->getContextVisibility());
     }
 
     /**
+     * @param RequestInterface $request
      * @return ParameterInterface
      */
-    public function getVisibilityFilter(Request $request) : ParameterInterface
+    public function getCategoryFilter(RequestInterface $request) : ParameterInterface
     {
-        return $this->getParameterFactory()->get(ParameterFactory::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
-            ->add("products_visibility", [1]);
-    }
-
-    /**
-     * @return ParameterInterface
-     */
-    public function getCategoryFilter(Request $request) : ParameterInterface
-    {
-        return $this->getParameterFactory()->get(ParameterFactory::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
+        return $this->getParameterFactory()->get(ParameterFactoryInterface::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
             ->add("category_id", $this->getContextNavigationId($request));
     }
 
     /**
+     * @param RequestInterface $request
      * @return ParameterInterface
      */
-    public function getActiveFilter(Request $request) : ParameterInterface
+    public function getActiveFilter(RequestInterface $request) : ParameterInterface
     {
-        return $this->getParameterFactory()->get(ParameterFactory::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
-            ->add("products_active", [1]);
+        return $this->getParameterFactory()->get(ParameterFactoryInterface::BOXALINO_API_REQUEST_PARAMETER_TYPE_FILTER)
+            ->add("products_status", [1]);
+    }
+
+    /**
+     * For the search context - generally the root category ID is the navigation filter (if needed)
+     *
+     * @param RequestInterface $request
+     * @return array
+     */
+    public function getContextNavigationId(RequestInterface $request): array
+    {
+        $categoryId = (int)$request->getParam('id', false);
+        if($categoryId)
+        {
+            return [$categoryId];
+        }
+
+        /** replace this value with your system`s root category ID -- if any; */
+        return [2];
+    }
+
+    /**
+     * The fields can also be configured in Boxalino Intelligence Admin as part of the TPO rules
+     *
+     * @return array
+     */
+    public function getReturnFields() : array
+    {
+        return ["id", "products_group_id", "title", "discountedPrice"];
     }
 
     /**
@@ -91,9 +122,19 @@ trait ContextTrait
     public function getRangeProperties() : array
     {
         return [
-            "products_rating_average" => ['from' => 'products_rating_average', 'to' => 0],
+            "products_rating_average" => ['from' => 'products_rating_average', 'to' => "0"],
             "discountedPrice" => ['from' => 'min-price', 'to' => 'max-price']
         ];
+    }
+
+    /**
+     * The filter values delimiter as to be used in your system for URLs requests
+     *
+     * @return string
+     */
+    public function getFilterValuesDelimiter(): string
+    {
+        return "|";
     }
 
 }

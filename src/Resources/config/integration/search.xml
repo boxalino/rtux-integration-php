@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Search definition of the search context used for the setup -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface"
+                 class="BoxalinoClientProject\BoxalinoIntegration\Framework\Request\SearchContext"
+                 parent="boxalino.api.request.context.search">
+            <call method="setRequestDefinition">
+                <argument type="service" id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\SearchRequestDefinitionInterface"/>
+            </call>
+            <call method="setWidget"><argument>search</argument></call>
+            <!-- <call method="setGroupBy"><argument>id</argument></call>-->
+            <!-- <call method="setHitCount"><argument>20</argument></call>-->
+            <call method="setSubPhrasesCount"><argument>3</argument></call>
+            <call method="setSubPhrasesProductsCount"><argument>6</argument></call>
+        </service>
+
+        <!-- Content loader for search (used as a dependency in controller) (declared independently because the ApiPageLoader can be re-used for navigation and other contexts -->
+        <service id="boxalino.integration.loader.search" class="BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Page\ApiPageLoader"
+                 parent="boxalino.integration.content.page.loader">
+            <call method="setApiContext">
+                <argument type="service" id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface"/>
+            </call>
+        </service>
+
+    </services>
+
+</container>

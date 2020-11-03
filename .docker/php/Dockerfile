@@ -1,19 +1,24 @@
 FROM php:7.2-fpm
 MAINTAINER Dana Negrescu <dana.negrescu@boxalino.com>
 
-# install libs according to Magento2 documentation&requirements
 RUN apt-get update && apt-get install -y \
     cron \
-    libmemcached-dev \
-    libssl-dev \
-    libmemcached11 \
-    libmcrypt-dev \
-    libicu-dev \
-    libssl-dev \
-    libmcrypt-dev \
-    libxml2-dev \
+    wget \
+    nano \
     curl \
     ssh \
+    zlib1g-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libssl-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libxslt1-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    libsodium-dev \
+    libmemcached11 \
+    mysql-client-* \
     libssh2-1-dev \
     git \
     openssl \
@@ -21,12 +26,16 @@ RUN apt-get update && apt-get install -y \
     sendmail\
     g++
 
-#Adding memcached library, fittable with/for PHP7
-RUN git clone -b php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
- && docker-php-ext-configure /usr/src/php/ext/memcached \
-     --disable-memcached-sasl \
- && docker-php-ext-install /usr/src/php/ext/memcached \
- && rm -rf /usr/src/php/ext/memcached
+#Adding memcached library, fit with/for PHP7
+#RUN git clone -b php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached \
+# && docker-php-ext-configure /usr/src/php/ext/memcached \
+#     --disable-memcached-sasl \
+# && docker-php-ext-install /usr/src/php/ext/memcached \
+# && rm -rf /usr/src/php/ext/memcached
+
+ # Configure the gd library
+RUN docker-php-ext-configure \
+   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 # Install required extensions
 RUN docker-php-ext-install \
@@ -67,10 +76,17 @@ RUN apt-get update &&\
     apt-get clean && rm -rf /var/lib/apt/lists/* &&\
     gem install mailcatcher --no-rdoc --no-ri
 
-WORKDIR "/var/www/app"
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN export PATH="$HOME/.symfony/bin:$PATH"
+
+WORKDIR /var/www/app
 VOLUME "/usr/local/etc/php/conf.d"
 
 RUN usermod -u 1001 www-data
-EXPOSE 9000
+RUN usermod -G 100 www-data
+
+EXPOSE 8000
 
 CMD ["php-fpm"]
+CMD ["symfony", "server:start"]

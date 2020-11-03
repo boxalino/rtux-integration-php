@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
+use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Boxalino\RealTimeUserExperienceApi\Framework\Request\RequestTransformerAbstract as ApiRequestTransformer;
 
 /**
@@ -17,23 +17,13 @@ class RequestTransformer extends ApiRequestTransformer
 {
     use RequestParametersTrait;
 
-
     /**
-     * @param Request $request
+     * @param RequestInterface $request
      * @return string
      */
-    public function getCustomerId(Request $request) : string
+    public function getCustomerId(RequestInterface $request) : string
     {
         return $this->getProfileId($request);
-    }
-
-    /**
-     * Store ID
-     * @return string
-     */
-    public function getContextId() : string
-    {
-        return "rtux-test";
     }
 
 }

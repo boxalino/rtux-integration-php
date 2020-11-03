@@ -50,18 +50,18 @@ RUN pecl channel-update pecl.php.net
 
 # Get composer installed to /usr/local/bin/composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-COPY .composer/auth.json /root/.composer/auth.json
 
 # Install Symfony
-#RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN export PATH="$HOME/.symfony/bin:$PATH"
 
 ADD bin/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup
-RUN chmod +x /usr/local/bin/install
 
 WORKDIR /var/www/app
 
 RUN usermod -u 1000 www-data
 RUN usermod -G 100 www-data
 
-ENTRYPOINT ["/usr/local/bin/setup"]
+CMD ["/usr/local/bin/setup"]

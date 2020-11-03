@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Specifically designed elements - connectors to Boxalino Narrative API service -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestTransformerInterface" class="BoxalinoClientProject\BoxalinoIntegration\Framework\Request\RequestTransformer"
+                 parent="boxalino.api.request.transformer"/>
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestInterface" class="Boxalino\RealTimeUserExperienceApi\Framework\Request\Request"/>
+
+        <!-- Configuration class for API & setup details-->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\ConfigurationInterface" class="BoxalinoClientProject\BoxalinoIntegration\Service\Api\Util\Configuration">
+            <argument type="string">%env(string:BOXALINO_API_USERNAME)%</argument>
+            <argument type="string">%env(string:BOXALINO_API_KEY)%</argument>
+            <argument type="string">%env(string:BOXALINO_API_SECRET)%</argument>
+            <argument type="string">%env(string:BOXALINO_API_URL)%</argument>
+            <argument>%env(bool:BOXALINO_API_DEV)%</argument>
+            <argument>%env(bool:BOXALINO_API_TEST)%</argument>
+        </service>
+
+        <!-- API Call service dependency (use default from rtux-api-php) -->
+<!--        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\ApiCallServiceInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\ApiCallService"/>-->
+        <!-- Request definition (structure) dependency (use default) -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestDefinition"/>
+        <!-- Parameter strategy (adding parameters to the request definitions) dependency (use default from rtux-api-php) -->
+<!--        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterFactoryInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\ParameterFactory"/>-->
+        <!-- Request definitions (structure) dependency (use default) (ex: other types can be created for custom brand/campaign/etc pages) -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\ItemRequestDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\ItemRequestDefinition"/>
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\AutocompleteRequestDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\AutocompleteRequestDefinition"/>
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\SearchRequestDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\SearchRequestDefinition"/>
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\ListingRequestDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Definition\ListingRequestDefinition"/>
+
+        <!-- Response Definition (how the response is translated to objects/ read) dependency (use default from rtux-api-php) -->
+<!--        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Response\ResponseDefinitionInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Response\ResponseDefinition"/>-->
+        <!-- Accessor Handler (Boxalino response data-objects data contract) dependency (use default from rtux-api-php) -->
+<!--        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\AccessorInterface" class="Boxalino\RealTimeUserExperienceApi\Service\Api\Response\Accessor\Accessor"/>-->
+        <!-- Accessor updates for the hit ID field name  -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\AccessorHandlerInterface"
+                 class="Boxalino\RealTimeUserExperienceApi\Service\Api\Util\AccessorHandler"
+                 parent="boxalino.api.accessor">
+            <!-- set the product property ID field as used in the requests -->
+            <call method="addHitIdFieldName">
+                <argument>bx-hit</argument>
+                <argument>products_group_id</argument>
+            </call>
+        </service>
+
+        <!-- Sorting resource - used to translate the request parameters and set the sort parameter for the API request -->
+        <service id="Boxalino\RealTimeUserExperienceApi\Framework\Content\Listing\ApiSortingModelInterface"
+                 class="BoxalinoClientProject\BoxalinoIntegration\Framework\Content\Listing\ApiSortingModel"
+                 parent="boxalino.api.content.listing.sorting"
+                 public="true">
+            <call method="addSortingOptionCollection">
+                <argument type="collection">
+                    <argument key="score" type="collection">
+                        <argument key="field">score</argument>
+                        <argument key="direction">asc</argument>
+                        <argument key="label">Our Recommendation</argument>
+                        <argument key="api-field">score</argument>
+                        <argument key="reverse">false</argument>
+                    </argument>
+                    <argument key="price-asc" type="collection">
+                        <argument key="field" type="string">price</argument>
+                        <argument key="direction" type="string">asc</argument>
+                        <argument key="label" type="string">Price: low to high</argument>
+                        <argument key="api-field" type="string">discountedPrice</argument>
+                        <argument key="reverse">false</argument>
+                    </argument>
+                    <argument key="price-desc" type="collection">
+                        <argument key="field" type="string">price</argument>
+                        <argument key="direction" type="string">desc</argument>
+                        <argument key="label" type="string">Price: high to low</argument>
+                        <argument key="api-field" type="string">discountedPrice</argument>
+                        <argument key="reverse">true</argument>
+                    </argument>
+                    <argument key="newest" type="collection">
+                        <argument key="field" type="string">entity_id</argument>
+                        <argument key="direction" type="string">desc</argument>
+                        <argument key="label" type="string">New arrivals</argument>
+                        <argument key="api-field" type="string">id</argument>
+                        <argument key="reverse">true</argument>
+                    </argument>
+                </argument>
+            </call>
+        </service>
+
+    </services>
+
+</container>

@@ -12,9 +12,9 @@ use Symfony\Component\Config\FileLocator;
  *
  * @package BoxalinoClientProject\BoxalinoIntegration\DependencyInjection
  */
-class SampleExtension extends Extension
+class BoxalinoIntegrationExtension extends Extension
 {
-    private const ALIAS = 'boxalino_rtux_sample';
+    private const ALIAS = 'boxalino_rtux_integration';
 
     public function getAlias() : string
     {
@@ -33,4 +33,5 @@ class SampleExtension extends Extension
         );
         $loader->load('services.xml');
     }
+
 }

@@ -22,7 +22,7 @@ trait RequestParametersTrait
      */
     public function getSearchParameter() : string
     {
-        return 'search';
+        return 'query';
     }
 
     /**
@@ -30,7 +30,7 @@ trait RequestParametersTrait
      */
     public function getPageNumberParameter() : string
     {
-        return "p";
+        return "page";
     }
 
     /**

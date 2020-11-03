@@ -2,12 +2,10 @@
 namespace BoxalinoClientProject\BoxalinoIntegration\Framework\Request;
 
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\ListingContextInterface;
-use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\Context\SearchContextInterface;
 use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestInterface;
 
 /**
- * Boxalino Search Request handler
- * Allows to set the nr of subphrases and products returned on each subphrase hit
+ * Boxalino Listing Request handler
  *
  * Available functions to rewrite:
  *  protected function addFilters(RequestInterface $request) : void
@@ -15,19 +13,12 @@ use Boxalino\RealTimeUserExperienceApi\Service\Api\Request\RequestInterface;
  *
  * @package BoxalinoClientProject\BoxalinoIntegration\Framework\Request
  */
-class SearchContext
-    extends \Boxalino\RealTimeUserExperienceApi\Framework\Request\SearchContextAbstract
-    implements SearchContextInterface, ListingContextInterface
+class ListingContext
+    extends \Boxalino\RealTimeUserExperienceApi\Framework\Request\ListingContextAbstract
+    implements ListingContextInterface
 {
     use ContextTrait;
     use RequestParametersTrait;
-
-    protected function addFilters(RequestInterface $request): void
-    {
-        /**
-         * do not set any default filters for search
-         */
-    }
 
     /**
      * @return array
@@ -38,12 +29,15 @@ class SearchContext
     }
 
     /**
+     * By default it sets the visibility, status and category filter
      * @param RequestInterface $request
-     * @return string
      */
-    public function getContextNavigationId(RequestInterface $request): array
+    protected function addFilters(RequestInterface $request): void
     {
-        return [];
+        $this->getApiRequest()
+            ->addFilters(
+                $this->getCategoryFilter($request)
+            );
     }
 
 }
